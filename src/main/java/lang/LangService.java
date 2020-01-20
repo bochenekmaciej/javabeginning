@@ -1,6 +1,7 @@
 package lang;
 
 import java.util.List;
+import java.util.Optional;
 
 
 import static java.util.stream.Collectors.toList;
@@ -22,5 +23,8 @@ class LangService {
                 .stream()
                 .map(LangDTO::new)
                 .collect(toList());
+    }
+    Optional<LangDTO> findById(Integer id){
+        return repository.findById(id).map(LangDTO::new);
     }
 }

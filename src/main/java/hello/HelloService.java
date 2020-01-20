@@ -10,7 +10,7 @@ import java.util.Optional;
 public class HelloService {
 
     static final String FALLBACK_NAME = "world";
-    static final Lang FALLBACK_LANG = new Lang(1, "Hello", "en");
+    static final Lang FALLBACK_LANG = new Lang(1, "Hello", "en", "Choose todo to delete");
     private final Logger logger = LoggerFactory.getLogger(HelloService.class);
     private LangRepository repository;
     HelloService(){

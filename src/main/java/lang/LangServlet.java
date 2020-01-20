@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet (name = "Lang", urlPatterns = {"/api/langs"})
+@WebServlet (name = "Lang", urlPatterns = {"/api/langs/*"})
 public class LangServlet extends HttpServlet {
     private final Logger logger = LoggerFactory.getLogger(HelloServlet.class);
     private LangService service;
@@ -34,7 +34,21 @@ public class LangServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("Got request with parameters " + req.getParameterMap());
         resp.setContentType("application/json;charset=UTF-8");
+
         mapper.writeValue(resp.getOutputStream(), service.findAll());
 
+        if(req.getPathInfo() != null){
+            String id = req.getPathInfo();
+            var deleteMsg = service.findById(Integer.valueOf(id.substring(1)));
+            mapper.writeValue(resp.getOutputStream(), deleteMsg);
+        }
+
+
+
+
+
     }
+
 }
+
+

@@ -24,17 +24,18 @@
             <button id="addTodo" class="pure-button pure-button-primary">+</button>
         </fieldset>
         <fieldset id="allTodos"></fieldset>
-        <br><b id="chooseToDelete"></b>
-        <fieldset id="msgToDelete">Choose todo to delete</fieldset>
-        <fieldset id="allTodosDelete">chuj</fieldset>
+        <fieldset id="deleteMsg"></fieldset>
+        <fieldset id="allTodosDelete"></fieldset>
     </form>
 </main>
 <script>
   (function() {
     const API_URL = 'http://localhost:8080/api';
     const TODO_API_URL = `${API_URL}/todos`;
-
     const todoText = document.getElementById('todoText');
+    const deleteMsg = document.getElementById('deleteMsg');
+
+    
 
     fetch(TODO_API_URL)
       .then(processOkResponse)
@@ -54,6 +55,7 @@
         .then(createNewTodo)
         .then(() => todoText.value = '')
         .catch(console.warn);
+    
 
     });
 
@@ -85,6 +87,10 @@
           event.preventDefault();
           fetch(`${TODO_API_URL}/${todo.id}`, { method: 'DELETE' })
             .then(processOkResponse)
+            .then(() =>{
+              label.remove();
+            btn.remove();
+            })
             .catch(console.warn);
         });
         btn.appendChild(document.createTextNode(`${todo.id}`));
@@ -92,6 +98,7 @@
       var space = '\xa0';
       document.getElementById('allTodosDelete').appendChild(btn);
       document.getElementById('allTodosDelete').append(space);
+      
     }
 /* 
 function deleteTodo(todo){
@@ -127,18 +134,23 @@ function deleteTodo(todo){
               </label>
           `).join('\n');
           initWelcomeFormClick();
+          
         });
+       
+        
+        
     }
 
     function initWelcomeFormClick() {
       const welcomeForm = document.getElementById('welcomeForm');
-
+    
       document.getElementById('btn').addEventListener('click', (event) => {
         event.preventDefault();
         const formObj = {
           name: welcomeForm.elements.name.value,
           lang: welcomeForm.elements.lang.value
         };
+       
         fetch(`${API_URL}?${new URLSearchParams(formObj)}`)
           .then(response => response.text())
           .then((text) => {
@@ -147,8 +159,16 @@ function deleteTodo(todo){
             `;
             welcomeForm.remove();
             document.getElementById('todoForm').style.display = 'block';
-          });
+          });  
+
+          const lang = welcomeForm.elements.lang.value;
+          fetch(`${API_URL}/langs/${lang.id}`)
+        .then(processOkResponse)
+        .then(langArr => {
+          document.getElementById('deleteMsg').innerHTML = langArr.map(lang => `${lang.deleteMsg}`);
+        });
       });
+      
     }
 
     function processOkResponse(response = {}) {

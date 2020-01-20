@@ -17,6 +17,7 @@ public class Lang {
     private Integer id;
     private String welcomeMsg;
     private String code;
+    private String deleteMsg;
 
     /**
      * Hibernate (JPA) needs it
@@ -24,10 +25,11 @@ public class Lang {
     @SuppressWarnings("unused")
     Lang(){}
 
-    public Lang(Integer id, String welcomeMsg, String code) {
+    public Lang(Integer id, String welcomeMsg, String code, String deleteMsg) {
         this.id = id;
         this.welcomeMsg = welcomeMsg;
         this.code = code;
+        this.deleteMsg = deleteMsg;
     }
 
     public Integer getId() {
@@ -48,5 +50,13 @@ public class Lang {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getDeleteMsg() {
+        return deleteMsg;
+    }
+
+    public void setDeleteMsg(String deleteMsg) {
+        this.deleteMsg = deleteMsg;
     }
 }
