@@ -45,7 +45,7 @@ public class TodoServlet extends HttpServlet {
             resp.setContentType("application/json;charset=UTF-8");
             mapper.writeValue(resp.getOutputStream(), todo);
         } catch (NumberFormatException e) {
-            logger.warn("Chuj ");
+            logger.warn("...");
         }
     }
 
